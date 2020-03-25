@@ -33,4 +33,10 @@ def send():
     print(messages)
     return {"ok": True}
 
+@app.route("/messages")
+def messages_view():
+    return {
+        'messages': messages
+    }
+
 app.run()
