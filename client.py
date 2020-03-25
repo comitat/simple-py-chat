@@ -1,13 +1,18 @@
 import requests
 
-response = requests.get('http://127.0.0.1:5000/status')
-print(response.status_code)
-print(response.text)
-print(response.json())
+def send_message(username, text):
+    message = {'username': username, 'text': text}
+    response = requests.post('http://127.0.0.1:5000/send', json=message)
+    return response.status_code ==200
+    #if response.status_code == 200
+    #   return True
+    #else:
+    #    return False
 
-message = {'username': '0', 'text': '123'}
+username = input('Your Name:')
 
-response = requests.post('http://127.0.0.1:5000/status', json=message) #{''})
-print(response.status_code)
-print(response.text)
-print(response.json())
+while True:
+    text =input('Your Massage:')
+    result = send_message(username,text)
+    if result is False:
+        print('Error')
