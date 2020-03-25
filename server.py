@@ -1,4 +1,5 @@
 from flask import Flask
+import time
 
 app = Flask(__name__)
 
@@ -9,8 +10,11 @@ def hello():
 
 @app.route("/status")
 def status():
+    current_time = time.asctime()
     return{
-        'status': True
+        'status': True,
+        'name': 'simple messenger',
+        'time': current_time
     }
 
 app.run()
