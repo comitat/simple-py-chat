@@ -35,8 +35,15 @@ def send():
 
 @app.route("/messages")
 def messages_view():
+    after = float(request.args.get('after'))
+    # filtered_massages = []
+    # for message in messages:
+    #     if message['time'] > after:
+    #         filtered_massages.append(message)
+    filtered_massages = [message for message in messages if message['time'] > after]
+
     return {
-        'messages': messages
+        'messages': filtered_massages
     }
 
 app.run()
