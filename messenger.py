@@ -38,6 +38,20 @@ class ExamlpeApp(QtWidgets.QMainWindow, clientui.Ui_MainWindow):
             except:
                 self.show_text('Connection Error!')
 
+    def print_message(self, message):
+        username = message['username']
+        message_time = message['time']
+        text = message['text']
+
+        dt = datetime.datetime.fromtimestamp(message_time)
+        dt_beauty = dt.strftime('%H:%M:%S')
+
+        self.show_text(f'{dt_beauty} {username}\n{text}\n\n')
+
+    def show_text(self, text):
+        self.textBrowser.append(text)
+        self.textBrowser.repaint()
+
 app = QtWidgets.QApplication([])
 window = ExamlpeApp()
 window.show()
