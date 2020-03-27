@@ -26,11 +26,11 @@ def print_message(message):
 
 while True:
     messages = get_messages(after)
-    #print(messages)
-
-    for message in messages:
-        print_message(message)
-        if message['time']  > after:
-            after = message['time']
+    
+    if messages:
+        after = messages[-1]['time']
+        for message in messages:
+            print_message(message)
+        
 
     time.sleep(1)

@@ -1,13 +1,17 @@
-from flask import Flask, request
+from flask import Flask, request, abort
 import datetime
 import time
 
 app = Flask(__name__)
 
 messages = [
-    {'username': 'Jonh', 'text':'Hello', 'time': 0.0}
+    {'username': 'user1', 'text':'Hello', 'time': 0.0}
 
 ]
+
+users = {
+    'user1':"123456"
+}
 
 @app.route("/")
 def hello():
@@ -19,12 +23,22 @@ def status():
     return{
         'status': True,
         'name': 'simple messenger',
-        'time': datetime.datetime.now().strftime('%Y/%m/%d %H:%M:%S')
+        'time': datetime.datetime.now().strftime('%Y/%m/%d %H:%M:%S'),
+        'messages_count': len(messages),
+        'users_count': len(users)
     }
 
 @app.route("/send", methods=['POST'])
 def send():
     username = request.json['username']
+    password = request.json['password']
+
+    if username in users:   #зарегестрированный пользователь
+        if password != users[username]:
+            return abort(401)
+    else:                   #новый пользователь: регистрируем
+        users[username] = password
+
     text = request.json['time']
     current_time = time.time()
     message = {'username':username, 'text':text, 'time':current_time}
