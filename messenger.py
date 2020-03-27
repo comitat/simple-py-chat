@@ -38,6 +38,20 @@ class ExamlpeApp(QtWidgets.QMainWindow, clientui.Ui_MainWindow):
             except:
                 self.show_text('Connection Error!')
 
+
+    def update_messages(self):
+        try:
+            response = requests.get(
+                'http://127.0.0.1:5000/messages',
+                params={'after': self.after}
+            )
+            data = response.json()
+            for message in data['messages']:
+                self.print_message(message)
+                self.after = message['time']
+        except:
+            print('Connection Error!')
+
     def print_message(self, message):
         username = message['username']
         message_time = message['time']
